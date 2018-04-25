@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<meta name="google-signin-client_id" content="638175809568-p8udd65s5b8mpqqgs3ahsesjkdjbt335.apps.googleusercontent.com"/>
+
+<head>
+<title>Webbapp Heerlen</title>
+<div th:replace="fragment/variables">&nbsp;</div>
+<script 
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/bootstrap.css" th:href="@{/css/bootstrap.css}" />
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/bootstrap-social.css" th:href="@{/css/bootstrap-social.css}" />
+<script src="https://apis.google.com/js/platform.js" async="async" defer="defer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<script src="https://apis.google.com/js/platform.js" async="async" defer="defer"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script th:src="${baseUri + 'js/thirdparty/notify.js'}"></script>
+<script th:src="${baseUri + 'js/general/admin.js'}"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+
+<body style="margin-top: 75px;">
+	<div th:replace="fragment/navbar :: navbar-loggedin">&nbsp;</div>
+	
+	<div class="container">
+		<h2>Administration</h2>
+		 <button class="btn btn-large btn-info" onclick="loadDB();" ><i class="fa fa-database" aria-hidden="true"></i> LoadDB</button>
+		<table class="table table-striped">
+			<thead>
+		      <tr>
+		        <th>Username</th>
+		        <th>User status</th>
+		        <th>Staff status</th>
+		        <th>Admin status</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+			    <tr data-th-each="user : ${users}">
+			        <td data-th-text="${user.username}">...</td>
+			        <td><button name="role" type="button" class="btn btn-primary btn-sm" 
+			        	th:classappend="${'USER'.equals(user.role)} ? 'btn-success disabled' : btn-danger" 
+			        	th:id="${'user_' + user.id}"
+			        	onclick="changeStatus(this);">User</button></td>
+			        <td><button name="role" type="button" class="btn btn-primary btn-sm" 
+			        	th:classappend="${'STAFF'.equals(user.role)} ? 'btn-success disabled' : btn-danger" 
+			        	th:id="${'staff_' + user.id}"
+			        	onclick="changeStatus(this);">Staff</button></td>
+			        <td><button name="role" type="button" class="btn btn-primary btn-sm" 
+			        	th:classappend="${'ADMIN'.equals(user.role)} ? 'btn-success disabled' : btn-danger" 
+			        	th:id="${'admin_' + user.id}"
+			        	onclick="changeStatus(this);">Admin</button></td>
+			    </tr>
+		    </tbody>
+		</table>
+	</div>
+</body>
+</html>

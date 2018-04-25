@@ -1,0 +1,68 @@
+
+<!-- LOGGED OUT -->
+
+<nav class="navbar navbar-default navbar-fixed-top" th:fragment="navbar-loggedout">
+  <div class="container-nav">
+    <div class="navbar-header">
+      <button style="margin-top: 20px;" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nb-collapse" aria-expanded="false" aria-controls="nb-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><b th:utext="#{app.title}">Title</b></a>
+    </div>
+
+    <div class="navbar-collapse collapse" id="nb-collapse">
+      <ul class="nav navbar-nav">
+        <li><a style="font-size: small;" th:href="${baseUri}"><i class="fa fa-home" aria-hidden="true"></i> HOME</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        	<form action="signin/google" method="post" style="margin: 5px 50px 5px 5px">
+        		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        		<input type="hidden" name="redirecturi" th:value="${redirectUrl}"/>
+        		<input type="hidden" name="scope" value="email"/>
+        		<button class="btn btn-block btn-social btn-google">
+    				<span class="fa fa-google"></span> Sign in
+  				</button>
+        	</form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- LOGGED IN -->
+
+<nav class="navbar navbar-default navbar-fixed-top" th:fragment="navbar-loggedin">
+  <div class="container-nav">
+    <div class="navbar-header">
+      <button style="margin-top: 20px;" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nb-collapse" aria-expanded="false" aria-controls="nb-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><b th:utext="#{app.title}">Title</b></a>
+    </div>
+
+    <div class="navbar-collapse collapse" id="nb-collapse">
+      <ul class="nav navbar-nav">
+        <li><a style="font-size: small;" th:href="${baseUri}"><i class="fa fa-home" aria-hidden="true"></i> HOME</a></li>
+        <li><a style="font-size: small;" th:href="${baseUri + 'secure/'}"><i class="fa fa-gamepad" aria-hidden="true"></i> Play</a></li>
+        <th:block th:if="${'ADMIN'.equals(user.role)}">
+			<li><a style="font-size: small;" th:href="${baseUri + 'secure/admin/'}"><i class="fa fa-cogs" aria-hidden="true"></i> ADMIN</a></li>
+		</th:block>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+        	<form th:action="${baseUri+ 'api/session'}" method="post">
+        		<button type="submit" class="btn btn-sm btn-primary" style="font-size:small; margin: 12px 50px 5px 5px;"><i class="fa fa-sign-out" aria-hidden="true"></i> LOGOUT</button>
+        	</form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

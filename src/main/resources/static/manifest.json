@@ -1,0 +1,7 @@
+{
+  "name": "D2O",
+  "short_name": "D2O",
+  "start_url": "/",
+  "display": "standalone",
+  "gcm_sender_id": "482941778795"
+}
