@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import me.d2o.service.general.UserService;
-
 /**
  * Class: StateMachineService
  *
@@ -26,37 +24,42 @@ public class StateMachineService {
 	@Autowired
 	private ApplicationEventPublisher publischer;
 
-	@Autowired
-	private UserService userService;
-
-	@Async
-	public void triggerTransition(long userId, long gameId, String event, Object body) {
-		userService.authenticate(userService.getUser(userId));
+	public void triggerTransition(String machineId, String event, Object body) {
 		TransitEvent e = new TransitEvent("");
 		e.setEvent(event);
-		e.setGameId(gameId);
-		e.setUserId(userId);
+		e.setMachineId(machineId);
 		e.setBody(body);
 		publischer.publishEvent(e);
 	}
 
-	@Async
-	public void triggerTransition(long userId, long gameId, String event) {
-		triggerTransition(userId, gameId, event, null);
-	}
-
-	@Async
-	public void triggerTransition(MachineEvent event, String transitionEvent) {
-		userService.authenticate(userService.getUser(event.getUserId()));
+	public void triggerTransition(AbstractMachineEvent event, String transitionEvent) {
 		TransitEvent transit = new TransitEvent("");
 		transit.copy(event);
 		transit.setEvent(transitionEvent);
 		publischer.publishEvent(transit);
 	}
+	
+	public void triggerTransition(String machineId, String event) {
+		triggerTransition(machineId,event,null);
+	}
+	
+	@Async
+	public void triggerAsynchronousTransition(String machineId, String event, Object body) {
+		triggerTransition(machineId,event,body);
+	}
 
-	protected GameEvent triggerGameEvent(MachineEvent event, String transitionEvent) {
-		userService.authenticate(userService.getUser(event.getUserId()));
-		GameEvent transit = new GameEvent("");
+	@Async
+	public void triggerAsynchronousTransition(String machineId, String event) {
+		triggerTransition(machineId,event,null);
+	}
+
+	@Async
+	public void triggerAsynchronousTransition(AbstractMachineEvent event, String transitionEvent) {
+		triggerTransition(event,transitionEvent);
+	}
+	
+	protected MachineEvent triggerMachineEvent(AbstractMachineEvent event, String transitionEvent) {
+		MachineEvent transit = new MachineEvent("");
 		transit.copy(event);
 		transit.setEvent(transitionEvent);
 		publischer.publishEvent(transit);

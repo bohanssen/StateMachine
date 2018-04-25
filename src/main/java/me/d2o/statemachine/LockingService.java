@@ -30,9 +30,9 @@ public class LockingService {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private List<Long> locks;
-	private Map<Long, Long> lockMap;
-	private Map<Long, List<Long>> queue;
+	private List<String> locks;
+	private Map<Long, String> lockMap;
+	private Map<String, List<Long>> queue;
 
 	@PostConstruct
 	void init() {
@@ -42,7 +42,7 @@ public class LockingService {
 	}
 
 	protected void aquire(TransitEvent event) {
-		long id = event.getGameId();
+		String id = event.getMachineId();
 		long threadId = this.getThreadId();
 		logger.info("Try to aquire lock for game [{}]", id);
 		while (!checkLock(threadId, id)) {
@@ -53,7 +53,7 @@ public class LockingService {
 		logger.info("Aquired lock for game [{}]", id);
 	}
 
-	private boolean checkLock(long threadId, long id) {
+	private boolean checkLock(long threadId, String id) {
 		boolean goAhead = false;
 		if (!queue.containsKey(id)) {
 			queue.put(id, Collections.synchronizedList(new ArrayList<>()));
