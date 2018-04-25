@@ -5,7 +5,7 @@ package me.d2o.statemachine;
 
 import java.util.UUID;
 
-import javax.persistence.Embeddable;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 
@@ -16,12 +16,16 @@ import javax.persistence.Id;
  * @since Jan 20, 2017 4:45:28 PM
  *
  */
-@Embeddable
+@Entity
 public class StateMachine {
 
 	@Id
 	private String machineID;
 	private String state;
+	
+	protected StateMachine(){
+		//Make sure default constructor is created
+	}
 	
 	public StateMachine(String initialState) {
 		machineID = UUID.randomUUID().toString();

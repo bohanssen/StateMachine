@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Class: GameEventHandler
+ * Class: MachineEventHandler
  *
  * @author bo.hanssen
  * @since Jan 23, 2017 1:29:44 PM
@@ -26,9 +26,13 @@ public abstract class MachineEventHandler {
 
 	public abstract String eventType();
 
+	public boolean preCheck(MachineEvent event){
+		return true;
+	}
+	
 	@EventListener
 	private void listner(MachineEvent event) {
-		if (event.getEvent().equals(eventType())) {
+		if (event.getEvent().equals(eventType()) && preCheck(event)) {
 			handleEvent(event);
 		}
 	}

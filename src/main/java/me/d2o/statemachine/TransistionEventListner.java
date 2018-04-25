@@ -47,15 +47,7 @@ public class TransistionEventListner {
 	}
 
 	private void stepTwoPropagate(TransitEvent transit, StateMachine machine, MachineTransition mt) {
-		MachineEvent ge = null;
-		String propagate = "";
-		if (!mt.getPropagationEvent().isEmpty()) {
-			propagate = mt.getPropagationEvent();
-			logger.info("Propagte event [{}]", propagate);
-		}
-		if (!propagate.isEmpty()) {
-			ge = fsm.triggerMachineEvent(transit, propagate);
-		}
+		MachineEvent ge =  fsm.triggerMachineEvent(transit, mt.getEvent());
 		stepThreeAdvanceState(machine, mt, ge);
 	}
 
@@ -72,7 +64,7 @@ public class TransistionEventListner {
 			event.setEvent(event.getPropagate());
 			event.setPropagate("");
 			logger.info("Propagating transit [{}]", event);
-			fsm.triggerTransition(event, event.getEvent());
+			fsm.triggerAsynchronousTransition(event, event.getEvent());
 		}
 	}
 
@@ -82,7 +74,7 @@ public class TransistionEventListner {
 			lock.aquire(transit);
 			StateMachine machine = machineRepository.findOne(transit.getMachineId());
 			stepOneMachineTransition(transit,machine);
-		} catch (TransitionException ex) {
+		} catch (Exception ex) {
 			logger.error("Could not process transition {}", ex);
 		}
 	}

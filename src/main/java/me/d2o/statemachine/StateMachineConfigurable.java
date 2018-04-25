@@ -27,20 +27,8 @@ public class StateMachineConfigurable {
 		transitions = new HashMap<>();
 	}
 
-	public void addTransition(String event, String currentState, String targetState, String propagationEvent) {
-		addTransition(event, currentState, targetState, propagationEvent, false);
-	}
-
-	public void addTransition(String event, String currentState, String targetState, String propagationEvent,
-			boolean checkturn) {
-		transitions.put(event + currentState,
-				new MachineTransition(event, currentState, targetState, propagationEvent, checkturn));
-	}
-
-	public void addTransition(String event, String currentState, String targetState, String propagationEvent,
-			String aiEvent, boolean checkturn) {
-		transitions.put(event + currentState,
-				new MachineTransition(event, currentState, targetState, propagationEvent, aiEvent, checkturn));
+	public void addTransition(String event, String currentState, String targetState) {
+		transitions.put(event+currentState, new MachineTransition(event, currentState, targetState));
 	}
 
 	public MachineTransition getTransition(String event, String currentState) {

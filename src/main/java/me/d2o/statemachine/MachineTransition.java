@@ -15,9 +15,6 @@ public class MachineTransition {
 	private String event;
 	private String currentState;
 	private String targetState;
-	private String propagationEvent;
-	private String aiEvent;
-	private boolean checkTurn;
 
 	/**
 	 * @param event
@@ -25,24 +22,10 @@ public class MachineTransition {
 	 * @param targetState
 	 * @param propagationEvent
 	 */
-	public MachineTransition(String event, String currentState, String targetState, String propagationEvent) {
-		this(event, currentState, targetState, propagationEvent, false);
-	}
-
-	public MachineTransition(String event, String currentState, String targetState, String propagationEvent,
-			boolean checkTurn) {
-		this(event, currentState, targetState, propagationEvent, "", checkTurn);
-	}
-
-	public MachineTransition(String event, String currentState, String targetState, String propagationEvent,
-			String aiEvent, boolean checkTurn) {
-		super();
+	public MachineTransition(String event, String currentState, String targetState) {
 		this.event = event;
 		this.currentState = currentState;
 		this.targetState = targetState;
-		this.propagationEvent = propagationEvent;
-		this.aiEvent = aiEvent;
-		this.checkTurn = checkTurn;
 	}
 
 	public String getEvent() {
@@ -57,22 +40,10 @@ public class MachineTransition {
 		return targetState;
 	}
 
-	public String getPropagationEvent() {
-		return propagationEvent;
-	}
-
-	public boolean isCheckTurn() {
-		return checkTurn;
-	}
-
-	public String getAiEvent() {
-		return aiEvent;
-	}
-
 	@Override
 	public String toString() {
 		return "MachineTransition [event=" + event + ", currentState=" + currentState + ", targetState=" + targetState
-				+ ", propagationEvent=" + propagationEvent + "]";
+				+ "]";
 	}
 
 }
