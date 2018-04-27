@@ -10,6 +10,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import me.d2o.statemachine.exceptions.TransitionException;
+
 
 /**
  * Class: DeterministicTransistion
@@ -72,7 +74,16 @@ public class TransistionEventListner {
 	private void execute(TransitEvent transit) {
 		try {
 			lock.aquire(transit);
-			StateMachine machine = machineRepository.findOne(transit.getMachineId());
+			StateMachine machine = null;
+			int timer = 0;
+			while (machine == null){
+				machine = machineRepository.findOne(transit.getMachineId());
+				if (machine == null && timer >= 60000)
+					throw new TransitionException("Could not transit machine because the StateMachine was not found in the db");
+				if (machine == null)
+					lock.sleep();
+				timer += 5;
+			}
 			stepOneMachineTransition(transit,machine);
 		} catch (Exception ex) {
 			logger.error("Could not process transition {}", ex);

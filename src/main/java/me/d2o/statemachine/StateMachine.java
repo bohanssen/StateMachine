@@ -7,7 +7,8 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * Class: MachineState
@@ -17,6 +18,7 @@ import javax.persistence.Id;
  *
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class StateMachine {
 
 	@Id
@@ -24,14 +26,14 @@ public class StateMachine {
 	private String state;
 	
 	protected StateMachine(){
-		//Make sure default constructor is created
-	}
-	
-	public StateMachine(String initialState) {
 		machineID = UUID.randomUUID().toString();
-		setState(initialState);
+		setState(getInitialState());
 	}
 
+	public String getInitialState() {
+		return "InitialState";
+	}
+	
 	public String getState() {
 		return state;
 	}
@@ -42,6 +44,11 @@ public class StateMachine {
 	
 	protected void setState(String state) {
 		this.state = state;
+	}
+
+	@Override
+	public String toString() {
+		return "StateMachine [machineID=" + machineID + ", state=" + state + "]";
 	}
 
 }

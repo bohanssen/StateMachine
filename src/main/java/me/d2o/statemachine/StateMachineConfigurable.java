@@ -20,14 +20,16 @@ public class StateMachineConfigurable {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private Map<String, MachineTransition> transitions;
-
+	private List<String> events = new ArrayList<>();
+	private List<String> states = new ArrayList<>();
+	
 	public StateMachineConfigurable(Class<?> events, Class<?> states) {
-		checkStaticFinalFields(events);
-		checkStaticFinalFields(states);
+		checkStaticFinalFields(events,'E');
+		checkStaticFinalFields(states,'S');
 		transitions = new HashMap<>();
 	}
 
-	private void checkStaticFinalFields(Class<?> configurable){
+	private void checkStaticFinalFields(Class<?> configurable, char config){
 		List<String> values = new ArrayList<>();
 		for (Field field : configurable.getFields()){
 			if ( field.getType().isAssignableFrom(String.class) && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())){
@@ -37,6 +39,11 @@ public class StateMachineConfigurable {
 							throw new StateMachineConfigurationException("Value is not unique: "+field.toString());
 						}
 						values.add(val);
+						if (config == 'E') {
+							events.add(val);
+						} else if (config == 'S'){
+							states.add(val);
+						}
 					} catch (IllegalArgumentException | IllegalAccessException e) {
 						throw new StateMachineConfigurationException(e);
 					}
@@ -47,6 +54,9 @@ public class StateMachineConfigurable {
 	}
 	
 	public void addTransition(String event, String currentState, String targetState) {
+		if (!events.contains(event) || !states.contains(currentState) || !states.contains(targetState)){
+			throw new StateMachineConfigurationException("Passed an invalid event or state to the Machine configuration");
+		}
 		transitions.put(event+currentState, new MachineTransition(event, currentState, targetState));
 	}
 

@@ -70,7 +70,7 @@ public class LockingService {
 		return goAhead;
 	}
 
-	private void sleep() {
+	public void sleep() {
 		try {
 			Thread.sleep(5);
 		} catch (InterruptedException e) {

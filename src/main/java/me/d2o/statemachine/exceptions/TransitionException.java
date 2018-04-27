@@ -10,7 +10,7 @@ package me.d2o.statemachine.exceptions;
  * @since Feb 3, 2017 10:15:59 AM
  *
  */
-public abstract class TransitionException extends RuntimeException {
+public class TransitionException extends RuntimeException {
 
 	private static final long serialVersionUID = -3908306534684554741L;
 
