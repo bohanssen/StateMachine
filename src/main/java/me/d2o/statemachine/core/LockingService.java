@@ -1,7 +1,7 @@
 /**
  *
  */
-package me.d2o.statemachine;
+package me.d2o.statemachine.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +70,7 @@ public class LockingService {
 		return goAhead;
 	}
 
-	public void sleep() {
+	protected void sleep() {
 		try {
 			Thread.sleep(5);
 		} catch (InterruptedException e) {
@@ -80,7 +80,7 @@ public class LockingService {
 	}
 
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
-	public void afterCommit(ApplicationEvent event) {
+	protected void afterCommit(ApplicationEvent event) {
 		long threadId = this.getThreadId();
 		if (lockMap.get(threadId) != null) {
 			locks.remove(lockMap.get(threadId));

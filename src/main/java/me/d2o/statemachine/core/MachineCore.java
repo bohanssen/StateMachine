@@ -1,7 +1,7 @@
 /**
  *
  */
-package me.d2o.statemachine;
+package me.d2o.statemachine.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import me.d2o.statemachine.StateMachineConfigurable;
 import me.d2o.statemachine.exceptions.TransitionException;
+import me.d2o.statemachine.utils.MachineRepository;
+import me.d2o.statemachine.utils.MachineTransition;
 
 
 /**
@@ -22,7 +25,7 @@ import me.d2o.statemachine.exceptions.TransitionException;
  */
 @Service
 @Transactional
-public class TransistionEventListner {
+public class MachineCore {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -54,10 +57,8 @@ public class TransistionEventListner {
 	}
 
 	private void stepThreeAdvanceState(StateMachine machine, MachineTransition mt, MachineEvent ge) {
-		if (mt != null && !mt.getTargetState().isEmpty()) {
-			logger.info("Update state [{}] -> [{}]", machine.getState(), mt.getTargetState());
-			machine.setState(mt.getTargetState());//
-		}
+		logger.info("Update state [{}] -> [{}]", machine.getState(), mt.getTargetState());
+		machine.setState(mt.getTargetState());//
 		stepFourPropagateTransistion(ge);
 	}
 

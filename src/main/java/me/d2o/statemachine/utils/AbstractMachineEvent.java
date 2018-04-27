@@ -1,7 +1,7 @@
 /**
  *
  */
-package me.d2o.statemachine;
+package me.d2o.statemachine.utils;
 
 import org.springframework.context.ApplicationEvent;
 

@@ -1,6 +1,8 @@
-package me.d2o.statemachine;
+package me.d2o.statemachine.utils;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import me.d2o.statemachine.core.StateMachine;
 
 /**
  * The Interface MachineRepository.

@@ -12,9 +12,18 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.orm.jpa.EntityScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
+import me.d2o.statemachine.utils.MachineTransition;
 
+@Configuration
+@EnableJpaRepositories
+@EntityScan
+@EnableAsync
 public class StateMachineConfigurable {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -67,5 +76,8 @@ public class StateMachineConfigurable {
 			return null;
 		}
 		return transitions.get(key);
+	}
+	
+	public static void main(String[] args) {
 	}
 }

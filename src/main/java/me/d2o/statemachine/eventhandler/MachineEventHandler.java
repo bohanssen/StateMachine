@@ -1,13 +1,16 @@
 /**
  *
  */
-package me.d2o.statemachine;
+package me.d2o.statemachine.eventhandler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import me.d2o.statemachine.core.MachineEvent;
+import me.d2o.statemachine.exceptions.TransitionException;
 
 /**
  * Class: MachineEventHandler
@@ -32,8 +35,12 @@ public abstract class MachineEventHandler {
 	
 	@EventListener
 	private void listner(MachineEvent event) {
-		if (event.getEvent().equals(eventType()) && preCheck(event)) {
-			handleEvent(event);
+		if (event.getEvent().equals(eventType())) {
+			if (preCheck(event)){
+				handleEvent(event);
+			} else {
+				throw new TransitionException("Precheck returned false");
+			}
 		}
 	}
 }
