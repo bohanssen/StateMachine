@@ -18,7 +18,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
-import me.d2o.statemachine.utils.MachineTransition;
 
 @Configuration
 @EnableJpaRepositories("me.d2o.statemachine")

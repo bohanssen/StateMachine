@@ -10,10 +10,10 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import me.d2o.statemachine.config.MachineTransition;
 import me.d2o.statemachine.config.StateMachineConfigurable;
 import me.d2o.statemachine.exceptions.TransitionException;
-import me.d2o.statemachine.utils.MachineRepository;
-import me.d2o.statemachine.utils.MachineTransition;
+import me.d2o.statemachine.repository.MachineRepository;
 
 
 /**

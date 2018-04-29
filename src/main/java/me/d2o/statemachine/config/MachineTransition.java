@@ -1,7 +1,7 @@
 /**
  *
  */
-package me.d2o.statemachine.utils;
+package me.d2o.statemachine.config;
 
 /**
  * Class: MachineTransition

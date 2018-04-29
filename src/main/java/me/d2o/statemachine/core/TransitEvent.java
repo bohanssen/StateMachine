@@ -3,7 +3,7 @@
  */
 package me.d2o.statemachine.core;
 
-import me.d2o.statemachine.utils.AbstractMachineEvent;
+import me.d2o.statemachine.abstractevents.AbstractMachineEvent;
 
 /**
  * Class: TransitEvent

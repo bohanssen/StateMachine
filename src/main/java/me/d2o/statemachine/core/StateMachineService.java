@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import me.d2o.statemachine.utils.AbstractMachineEvent;
+import me.d2o.statemachine.abstractevents.AbstractMachineEvent;
 
 /**
  * Class: StateMachineService

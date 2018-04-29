@@ -1,4 +1,4 @@
-package me.d2o.statemachine.utils;
+package me.d2o.statemachine.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
