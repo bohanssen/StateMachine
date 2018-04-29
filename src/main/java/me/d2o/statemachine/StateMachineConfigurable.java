@@ -31,8 +31,16 @@ public class StateMachineConfigurable {
 	private Map<String, MachineTransition> transitions;
 	private List<String> events = new ArrayList<>();
 	private List<String> states = new ArrayList<>();
+	private Class<?> eventClass;
+
+	public void checkIfEventIsValid(String event){
+		if (!events.contains(event)){
+			throw new StateMachineConfigurationException("["+event+"] is not a valid event because it is not declared in the events class ["+eventClass+"]");
+		}
+	}
 	
 	public StateMachineConfigurable(Class<?> events, Class<?> states) {
+		eventClass = events;
 		checkStaticFinalFields(events,'E');
 		checkStaticFinalFields(states,'S');
 		transitions = new HashMap<>();

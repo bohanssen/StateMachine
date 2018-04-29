@@ -3,13 +3,19 @@
  */
 package me.d2o.statemachine.eventhandler;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import me.d2o.statemachine.StateMachineConfigurable;
 import me.d2o.statemachine.core.MachineEvent;
+import me.d2o.statemachine.exceptions.MachineEventHandlerConfigurationException;
+import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
 import me.d2o.statemachine.exceptions.TransitionException;
 
 /**
@@ -25,12 +31,24 @@ public abstract class MachineEventHandler {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	@Autowired
+	private StateMachineConfigurable smc;
+	
 	public abstract void handleEvent(MachineEvent event);
 
 	public abstract String eventType();
 
 	public boolean preCheck(MachineEvent event){
 		return true;
+	}
+	
+	@PostConstruct
+	private void validate(){
+		try {
+			smc.checkIfEventIsValid(eventType());
+		} catch (StateMachineConfigurationException ex){
+			throw new MachineEventHandlerConfigurationException("Could not construct the MachineEventHandler ["+this.getClass()+"] because the eventType method returns an invalid String",ex);
+		}
 	}
 	
 	@EventListener
