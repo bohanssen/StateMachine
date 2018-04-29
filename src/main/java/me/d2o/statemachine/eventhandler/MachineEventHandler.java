@@ -12,7 +12,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import me.d2o.statemachine.StateMachineConfigurable;
+import me.d2o.statemachine.config.StateMachineConfigurable;
 import me.d2o.statemachine.core.MachineEvent;
 import me.d2o.statemachine.exceptions.MachineEventHandlerConfigurationException;
 import me.d2o.statemachine.exceptions.StateMachineConfigurationException;

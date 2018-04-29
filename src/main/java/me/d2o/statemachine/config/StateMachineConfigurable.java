@@ -1,7 +1,7 @@
 /**
  *
  */
-package me.d2o.statemachine;
+package me.d2o.statemachine.config;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -21,8 +21,8 @@ import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
 import me.d2o.statemachine.utils.MachineTransition;
 
 @Configuration
-@EnableJpaRepositories
-@EntityScan
+@EnableJpaRepositories("me.d2o.statemachine")
+@EntityScan("me.d2o.statemachine")
 @EnableAsync
 public class StateMachineConfigurable {
 
@@ -32,7 +32,7 @@ public class StateMachineConfigurable {
 	private List<String> events = new ArrayList<>();
 	private List<String> states = new ArrayList<>();
 	private Class<?> eventClass;
-
+	
 	public void checkIfEventIsValid(String event){
 		if (!events.contains(event)){
 			throw new StateMachineConfigurationException("["+event+"] is not a valid event because it is not declared in the events class ["+eventClass+"]");
