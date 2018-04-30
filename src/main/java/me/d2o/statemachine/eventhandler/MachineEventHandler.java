@@ -47,12 +47,14 @@ public abstract class MachineEventHandler {
 		try {
 			smc.checkIfEventIsValid(eventType());
 		} catch (StateMachineConfigurationException ex){
-			throw new MachineEventHandlerConfigurationException("Could not construct the MachineEventHandler ["+this.getClass()+"] because the eventType method returns an invalid String",ex);
+			MachineEventHandlerConfigurationException e = new MachineEventHandlerConfigurationException("Could not construct the MachineEventHandler ["+this.getClass()+"] because the eventType method returns an invalid String",ex);
+			logger.error("Bad configuration",e);
+			throw e;
 		}
 	}
 	
 	@EventListener
-	private void listner(MachineEvent event) {
+	void listner(MachineEvent event) {
 		if (event.getEvent().equals(eventType())) {
 			if (preCheck(event)){
 				handleEvent(event);

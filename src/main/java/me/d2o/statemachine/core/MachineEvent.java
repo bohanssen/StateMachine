@@ -16,7 +16,7 @@ public class MachineEvent extends AbstractMachineEvent {
 
 	private static final long serialVersionUID = -8167350404522760596L;
 
-	protected MachineEvent(Object source) {
+	MachineEvent(Object source) {
 		super(source);
 	}
 }

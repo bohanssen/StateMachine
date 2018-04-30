@@ -3,6 +3,9 @@
  */
 package me.d2o.statemachine.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Class: MachineTransition
  *
@@ -12,6 +15,8 @@ package me.d2o.statemachine.config;
  */
 public class MachineTransition {
 
+	private static final Logger logger = LoggerFactory.getLogger(MachineTransition.class);
+	
 	private String event;
 	private String currentState;
 	private String targetState;
@@ -26,6 +31,7 @@ public class MachineTransition {
 		this.event = event;
 		this.currentState = currentState;
 		this.targetState = targetState;
+		logger.info("New: {}",this);
 	}
 
 	public String getEvent() {

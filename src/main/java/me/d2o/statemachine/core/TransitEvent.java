@@ -16,7 +16,7 @@ public class TransitEvent extends AbstractMachineEvent {
 
 	private static final long serialVersionUID = -8167350404522760596L;
 
-	protected TransitEvent(Object source) {
+	TransitEvent(Object source) {
 		super(source);
 	}
 }

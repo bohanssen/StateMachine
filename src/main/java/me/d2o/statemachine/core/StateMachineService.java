@@ -3,6 +3,13 @@
  */
 package me.d2o.statemachine.core;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
@@ -23,14 +30,33 @@ import me.d2o.statemachine.abstractevents.AbstractMachineEvent;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public class StateMachineService {
 
+	private static final Logger logger = LoggerFactory.getLogger(StateMachineService.class);
+	
 	@Autowired
 	private ApplicationEventPublisher publischer;
 
+	@PersistenceContext
+	private EntityManager em;
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	protected StateMachine getStateMachineById(String id){
+		logger.debug("Retrieve Machine [{}] from DB",id);
+		try {
+			TypedQuery<StateMachine> query = em.createQuery("select m from StateMachine m where m.machineID = ?1", StateMachine.class);
+			query.setParameter(1, id);
+			return query.getSingleResult();
+		} catch (NoResultException ex){
+			logger.debug("Retrieving Machine [{}] from DB failed",id);
+			return null;
+		}
+	}
+	
 	public void triggerTransition(String machineId, String event, Object body) {
 		TransitEvent e = new TransitEvent("");
 		e.setEvent(event);
 		e.setMachineId(machineId);
 		e.setBody(body);
+		logger.debug("Trigger event [{}]",e);
 		publischer.publishEvent(e);
 	}
 
@@ -38,6 +64,7 @@ public class StateMachineService {
 		TransitEvent transit = new TransitEvent("");
 		transit.copy(event);
 		transit.setEvent(transitionEvent);
+		logger.debug("Trigger event [{}]",transit);
 		publischer.publishEvent(transit);
 	}
 	
@@ -60,11 +87,12 @@ public class StateMachineService {
 		triggerTransition(event,transitionEvent);
 	}
 	
-	protected MachineEvent triggerMachineEvent(AbstractMachineEvent event, String transitionEvent) {
+	MachineEvent triggerMachineEvent(AbstractMachineEvent event, String transitionEvent) {
 		MachineEvent transit = new MachineEvent("");
 		transit.copy(event);
 		transit.setEvent(transitionEvent);
 		publischer.publishEvent(transit);
+		logger.debug("Trigger event [{}]",transit);
 		return transit;
 	}
 

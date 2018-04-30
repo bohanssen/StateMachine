@@ -12,25 +12,22 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
 
 @Configuration
-@EnableJpaRepositories("me.d2o.statemachine")
-@EntityScan("me.d2o.statemachine")
 @EnableAsync
 public class StateMachineConfigurable {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(StateMachineConfigurable.class);
 
 	private Map<String, MachineTransition> transitions;
 	private List<String> events = new ArrayList<>();
 	private List<String> states = new ArrayList<>();
 	private Class<?> eventClass;
+	
 	
 	public void checkIfEventIsValid(String event){
 		if (!events.contains(event)){
@@ -39,9 +36,17 @@ public class StateMachineConfigurable {
 	}
 	
 	public StateMachineConfigurable(Class<?> events, Class<?> states) {
+		logger.info("New Event driven StateMachine configuration");
+		logger.info("Event configuration class: {}",events);
+		logger.info("State configuration class: {}",states);
 		eventClass = events;
-		checkStaticFinalFields(events,'E');
-		checkStaticFinalFields(states,'S');
+		try {
+			checkStaticFinalFields(events,'E');
+			checkStaticFinalFields(states,'S');
+		} catch (Exception e){
+			logger.error("Could not configure statemachine",e);
+			throw e;
+		}
 		transitions = new HashMap<>();
 	}
 
@@ -71,7 +76,9 @@ public class StateMachineConfigurable {
 	
 	public void addTransition(String event, String currentState, String targetState) {
 		if (!events.contains(event) || !states.contains(currentState) || !states.contains(targetState)){
-			throw new StateMachineConfigurationException("Passed an invalid event or state to the Machine configuration");
+			StateMachineConfigurationException ex = new StateMachineConfigurationException("Passed an invalid event or state to the Machine configuration");
+			logger.error("Could not register transition",ex);
+			throw ex;
 		}
 		transitions.put(event+currentState, new MachineTransition(event, currentState, targetState));
 	}

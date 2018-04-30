@@ -1,4 +1,4 @@
-/**
+ /**
  *
  */
 package me.d2o.statemachine.core;
@@ -13,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import me.d2o.statemachine.config.MachineTransition;
 import me.d2o.statemachine.config.StateMachineConfigurable;
 import me.d2o.statemachine.exceptions.TransitionException;
-import me.d2o.statemachine.repository.MachineRepository;
-
 
 /**
  * Class: DeterministicTransistion
@@ -27,7 +25,7 @@ import me.d2o.statemachine.repository.MachineRepository;
 @Transactional
 public class MachineCore {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(MachineCore.class);
 
 	@Autowired
 	private StateMachineConfigurable config;
@@ -37,9 +35,6 @@ public class MachineCore {
 
 	@Autowired
 	private LockingService lock;
-
-	@Autowired
-	private MachineRepository machineRepository;
 	
 	private void stepOneMachineTransition(TransitEvent transit, StateMachine machine) {
 		MachineTransition mt = config.getTransition(transit.getEvent(), machine.getState());
@@ -78,7 +73,7 @@ public class MachineCore {
 			StateMachine machine = null;
 			int timer = 0;
 			while (machine == null){
-				machine = machineRepository.findOne(transit.getMachineId());
+				machine = fsm.getStateMachineById(transit.getMachineId());
 				if (machine == null && timer >= 60000)
 					throw new TransitionException("Could not transit machine because the StateMachine was not found in the db");
 				if (machine == null)

@@ -28,7 +28,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Service
 public class LockingService {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(LockingService.class);
 
 	private List<String> locks;
 	private Map<Long, String> lockMap;
@@ -39,9 +39,10 @@ public class LockingService {
 		locks = Collections.synchronizedList(new ArrayList<>());
 		queue = Collections.synchronizedMap(new HashMap<>());
 		lockMap = Collections.synchronizedMap(new HashMap<>());
+		logger.debug("Initialized StateMachine lockservice");
 	}
 
-	protected void aquire(TransitEvent event) {
+	void aquire(TransitEvent event) {
 		String id = event.getMachineId();
 		long threadId = this.getThreadId();
 		logger.info("Try to aquire lock for game [{}]", id);
@@ -70,7 +71,7 @@ public class LockingService {
 		return goAhead;
 	}
 
-	protected void sleep() {
+	void sleep() {
 		try {
 			Thread.sleep(5);
 		} catch (InterruptedException e) {
@@ -80,7 +81,7 @@ public class LockingService {
 	}
 
 	@TransactionalEventListener(phase = TransactionPhase.AFTER_COMPLETION)
-	protected void afterCommit(ApplicationEvent event) {
+	void afterCommit(ApplicationEvent event) {
 		long threadId = this.getThreadId();
 		if (lockMap.get(threadId) != null) {
 			locks.remove(lockMap.get(threadId));

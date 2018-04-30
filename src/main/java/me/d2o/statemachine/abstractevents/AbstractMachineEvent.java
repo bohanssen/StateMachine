@@ -3,6 +3,8 @@
  */
 package me.d2o.statemachine.abstractevents;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -14,6 +16,8 @@ import org.springframework.context.ApplicationEvent;
  */
 public abstract class AbstractMachineEvent extends ApplicationEvent {
 
+	private static final Logger logger = LoggerFactory.getLogger(AbstractMachineEvent.class);
+	
 	private static final long serialVersionUID = 1518456235456803455L;
 	private String machineId;
 	private String event;
@@ -26,6 +30,7 @@ public abstract class AbstractMachineEvent extends ApplicationEvent {
 	}
 
 	public void copy(AbstractMachineEvent e) {
+		logger.debug("Copy event [{}]", e);
 		this.machineId = e.getMachineId();
 		this.event = e.getEvent();
 		this.body = e.getBody();
@@ -65,7 +70,7 @@ public abstract class AbstractMachineEvent extends ApplicationEvent {
 
 	@Override
 	public String toString() {
-		return "MachineEvent [machineId=" + machineId + ", event=" + event + ", propagate=" + propagate + ", body="
+		return this.getClass().getSimpleName()+" [machineId=" + machineId + ", event=" + event + ", propagate=" + propagate + ", body="
 				+ body + "]";
 	}
 
