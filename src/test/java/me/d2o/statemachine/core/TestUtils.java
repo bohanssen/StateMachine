@@ -22,7 +22,9 @@ public class TestUtils {
 	private MachineRepository repo;
 	
 	public String get(){
-		return repo.findById(ID).get().getState();
+		StateMachine machine = repo.findById(ID).get();
+		machine.toString();
+		return machine.getState();
 	}
 	
 	public void reset(){

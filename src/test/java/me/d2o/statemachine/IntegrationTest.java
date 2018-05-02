@@ -7,16 +7,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import me.d2o.statemachine.config.Events;
-import me.d2o.statemachine.config.StateMachineConfigurable;
 import me.d2o.statemachine.config.States;
+import me.d2o.statemachine.core.MachineCore;
 import me.d2o.statemachine.core.StateMachineService;
 import me.d2o.statemachine.core.TestUtils;
 import me.d2o.statemachine.spy.Event1;
@@ -74,5 +72,11 @@ public class IntegrationTest {
 		assertTrue(Event2.triggered);
 		assertTrue(Event3.triggered);
 		assertTrue(Event4.triggered);
+	}
+	
+	@Test
+	public void unknowMachineTest(){
+		MachineCore.machineLookUpTimeOut = 1000;
+		fsm.triggerTransition("UNKNOWN", Events.EVENT_1);
 	}
 }

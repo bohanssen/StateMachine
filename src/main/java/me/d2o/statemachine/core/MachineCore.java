@@ -26,7 +26,8 @@ import me.d2o.statemachine.exceptions.TransitionException;
 public class MachineCore {
 
 	private static final Logger logger = LoggerFactory.getLogger(MachineCore.class);
-
+	public static int machineLookUpTimeOut = 60000;
+	
 	@Autowired
 	private StateMachineConfigurable config;
 
@@ -38,9 +39,7 @@ public class MachineCore {
 	
 	private void stepOneMachineTransition(TransitEvent transit, StateMachine machine) {
 		MachineTransition mt = config.getTransition(transit.getEvent(), machine.getState());
-		if (mt != null && !machine.getState().equals(mt.getCurrentState())) {
-			logger.warn("Received invalid transition event [{}] current state is [{}]", mt, machine.getState());
-		} else if (mt != null) {
+		if (mt != null) {
 			logger.info("Received event [{}]", mt);
 			stepTwoPropagate(transit, machine, mt);
 		}
@@ -74,7 +73,7 @@ public class MachineCore {
 			int timer = 0;
 			while (machine == null){
 				machine = fsm.getStateMachineById(transit.getMachineId());
-				if (machine == null && timer >= 60000)
+				if (machine == null && timer >= machineLookUpTimeOut)
 					throw new TransitionException("Could not transit machine because the StateMachine was not found in the db");
 				if (machine == null)
 					lock.sleep();

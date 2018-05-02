@@ -48,7 +48,7 @@ public class StateMachine {
 
 	@Override
 	public String toString() {
-		return "StateMachine [machineID=" + machineID + ", state=" + state + "]";
+		return "StateMachine [machineID=" + getMachineId() + ", state=" + getState() + "]";
 	}
 
 }
