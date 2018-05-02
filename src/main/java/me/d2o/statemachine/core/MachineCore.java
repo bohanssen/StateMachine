@@ -81,7 +81,7 @@ public class MachineCore {
 			}
 			stepOneMachineTransition(transit,machine);
 		} catch (Exception ex) {
-			logger.error("Could not process transition {}", ex);
+			logger.error("Could not process transition:", ex);
 		}
 	}
 

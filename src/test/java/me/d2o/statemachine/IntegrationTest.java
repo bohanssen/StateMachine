@@ -79,4 +79,10 @@ public class IntegrationTest {
 		MachineCore.machineLookUpTimeOut = 1000;
 		fsm.triggerTransition("UNKNOWN", Events.EVENT_1);
 	}
+	
+	@Test
+	public void falsePrecheckTest(){
+		utils.reset();
+		fsm.triggerTransition(TestUtils.ID, Events.EVENT_5);
+	}
 }

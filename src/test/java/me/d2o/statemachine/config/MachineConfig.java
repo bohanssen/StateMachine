@@ -16,6 +16,8 @@ public class MachineConfig {
  		
  		fsm.addTransition(Events.EVENT_4, States.STATE_1, States.STATE_2);
  		
+ 		fsm.addTransition(Events.EVENT_5, States.STATE_1, States.STATE_2);
+ 		
  		return fsm;
  	}
 }
