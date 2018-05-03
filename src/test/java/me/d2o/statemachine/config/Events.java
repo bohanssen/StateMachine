@@ -11,6 +11,4 @@ public class Events {
 	public static final String EVENT_4 = "EVENT_4";
 	public static final String EVENT_5 = "EVENT_5";
 	
-	private Events() {
-	}
 }

@@ -43,7 +43,7 @@ public abstract class MachineEventHandler {
 	}
 	
 	@PostConstruct
-	private void validate(){
+	void validate(){
 		try {
 			smc.checkIfEventIsValid(eventType());
 		} catch (StateMachineConfigurationException ex){

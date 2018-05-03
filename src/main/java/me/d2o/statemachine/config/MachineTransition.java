@@ -48,7 +48,7 @@ public class MachineTransition {
 
 	@Override
 	public String toString() {
-		return "MachineTransition [event=" + event + ", currentState=" + currentState + ", targetState=" + targetState
+		return "MachineTransition [event=" + getEvent() + ", currentState=" + getCurrentState() + ", targetState=" + getTargetState()
 				+ "]";
 	}
 

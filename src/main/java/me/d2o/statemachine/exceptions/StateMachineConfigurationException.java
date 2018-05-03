@@ -12,45 +12,13 @@ package me.d2o.statemachine.exceptions;
  */
 public class StateMachineConfigurationException extends RuntimeException {
 
-	private static final long serialVersionUID = -3908306534684554741L;
+	private static final long serialVersionUID = 1973543642725051803L;
 
-	/**
-	 *
-	 */
-	public StateMachineConfigurationException() {
-		super();
+	public StateMachineConfigurationException(String string) {
+		super(string);
 	}
 
-	/**
-	 * @param message
-	 * @param cause
-	 * @param enableSuppression
-	 * @param writableStackTrace
-	 */
-	public StateMachineConfigurationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
+	public StateMachineConfigurationException(Exception e) {
+		super(e);
 	}
-
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public StateMachineConfigurationException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	/**
-	 * @param message
-	 */
-	public StateMachineConfigurationException(String message) {
-		super(message);
-	}
-
-	/**
-	 * @param cause
-	 */
-	public StateMachineConfigurationException(Throwable cause) {
-		super(cause);
-	}
-
 }

@@ -13,10 +13,17 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import me.d2o.statemachine.config.Events;
+import me.d2o.statemachine.config.StateMachineConfigurable;
 import me.d2o.statemachine.config.States;
+import me.d2o.statemachine.config.configexceptiontests.EventsExceptionTest;
+import me.d2o.statemachine.config.configexceptiontests.EventsNotFinal;
+import me.d2o.statemachine.config.configexceptiontests.EventsNotStatic;
+import me.d2o.statemachine.config.configexceptiontests.EventsNotString;
+import me.d2o.statemachine.config.configexceptiontests.StatesNotUniqueTest;
 import me.d2o.statemachine.core.MachineCore;
 import me.d2o.statemachine.core.StateMachineService;
 import me.d2o.statemachine.core.TestUtils;
+import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
 import me.d2o.statemachine.spy.Event1;
 import me.d2o.statemachine.spy.Event2;
 import me.d2o.statemachine.spy.Event3;
@@ -35,6 +42,9 @@ public class IntegrationTest {
 	
 	@Autowired
 	private TestUtils utils;
+	
+	@Autowired
+	private StateMachineConfigurable config;
 	
 	@Test
 	public void happyFlow(){
@@ -85,4 +95,89 @@ public class IntegrationTest {
 		utils.reset();
 		fsm.triggerTransition(TestUtils.ID, Events.EVENT_5);
 	}
+	
+	@Test
+	public void faultyEventTransistionConfigTest(){
+		boolean exception = false;
+		try {
+			config.addTransition("UNKNOWN EVENT", States.STATE_1, States.STATE_1);
+		} catch (StateMachineConfigurationException ex){
+			assertEquals("Passed an invalid event or state to the Machine configuration", ex.getMessage());
+			exception = true;
+		}
+		assertTrue(exception);
+	}
+	
+	@Test
+	public void faultyStateTransistionConfigTest(){
+		boolean exception = false;
+		try {
+			config.addTransition(Events.EVENT_1, "UNKNOWN STATE", States.STATE_1);
+		} catch (StateMachineConfigurationException ex){
+			assertEquals("Passed an invalid event or state to the Machine configuration", ex.getMessage());
+			exception = true;
+		}
+		assertTrue(exception);
+	}
+	
+	@Test
+	public void eventsNotUniqueTest(){
+		boolean exception = false;
+		try {
+			new StateMachineConfigurable(EventsExceptionTest.class, States.class);
+		} catch (StateMachineConfigurationException ex){
+			assertTrue(ex.getMessage().startsWith("Value is not unique"));
+			exception = true;
+		}
+		assertTrue(exception);
+	}
+	
+	@Test
+	public void statesNotUniqueTest(){
+		boolean exception = false;
+		try {
+			new StateMachineConfigurable(Events.class, StatesNotUniqueTest.class);
+		} catch (StateMachineConfigurationException ex){
+			assertTrue(ex.getMessage().startsWith("Value is not unique"));
+			exception = true;
+		}
+		assertTrue(exception);
+	}
+	
+	@Test
+	public void eventsNotStaticTest(){
+		boolean exception = false;
+		try {
+			new StateMachineConfigurable(EventsNotStatic.class, States.class);
+		} catch (StateMachineConfigurationException ex){
+			assertTrue(ex.getMessage().startsWith("Please use only public static final String fields in your configuration:"));
+			exception = true;
+		}
+		assertTrue(exception);
+	}
+	
+	@Test
+	public void eventsNotFinalTest(){
+		boolean exception = false;
+		try {
+			new StateMachineConfigurable(EventsNotFinal.class, States.class);
+		} catch (StateMachineConfigurationException ex){
+			assertTrue(ex.getMessage().startsWith("Please use only public static final String fields in your configuration:"));
+			exception = true;
+		}
+		assertTrue(exception);
+	}
+	
+	@Test
+	public void eventsNotStringTest(){
+		boolean exception = false;
+		try {
+			new StateMachineConfigurable(EventsNotString.class, States.class);
+		} catch (StateMachineConfigurationException ex){
+			assertTrue(ex.getMessage().startsWith("Please use only public static final String fields in your configuration:"));
+			exception = true;
+		}
+		assertTrue(exception);
+	}
+	
 }

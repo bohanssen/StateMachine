@@ -43,31 +43,29 @@ public class StateMachineConfigurable {
 		try {
 			checkStaticFinalFields(events,'E');
 			checkStaticFinalFields(states,'S');
+		} catch (StateMachineConfigurationException ex) {
+			logger.error("Could not configure statemachine",ex);
+			throw ex;
 		} catch (Exception e){
-			logger.error("Could not configure statemachine",e);
-			throw e;
+			throw new StateMachineConfigurationException(e);
 		}
 		transitions = new HashMap<>();
 	}
 
-	private void checkStaticFinalFields(Class<?> configurable, char config){
+	private void checkStaticFinalFields(Class<?> configurable, char config) throws IllegalArgumentException, IllegalAccessException{
 		List<String> values = new ArrayList<>();
 		for (Field field : configurable.getFields()){
 			if ( field.getType().isAssignableFrom(String.class) && Modifier.isStatic(field.getModifiers()) && Modifier.isFinal(field.getModifiers())){
-					try {
-						String val = (String) field.get("");
-						if (values.contains(val)){
-							throw new StateMachineConfigurationException("Value is not unique: "+field.toString());
-						}
-						values.add(val);
-						if (config == 'E') {
-							events.add(val);
-						} else if (config == 'S'){
-							states.add(val);
-						}
-					} catch (IllegalArgumentException | IllegalAccessException e) {
-						throw new StateMachineConfigurationException(e);
-					}
+				String val = (String) field.get("");
+				if (values.contains(val)){
+					throw new StateMachineConfigurationException("Value is not unique: "+field.toString());
+				}
+				values.add(val);
+				if (config == 'E') {
+					events.add(val);
+				} else if (config == 'S'){
+					states.add(val);
+				}
 			} else {
 				throw new StateMachineConfigurationException("Please use only public static final String fields in your configuration: "+configurable.getName());
 			}
