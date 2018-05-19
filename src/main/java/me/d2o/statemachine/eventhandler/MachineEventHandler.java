@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,7 @@ import me.d2o.statemachine.exceptions.TransitionException;
 public abstract class MachineEventHandler {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+	
 	@Autowired
 	private StateMachineConfigurable smc;
 	
@@ -53,8 +54,9 @@ public abstract class MachineEventHandler {
 		}
 	}
 	
+	@Order(100)
 	@EventListener
-	void listner(MachineEvent event) {
+	protected void listner(MachineEvent event) {
 		if (event.getEvent().equals(eventType())) {
 			if (preCheck(event)){
 				handleEvent(event);

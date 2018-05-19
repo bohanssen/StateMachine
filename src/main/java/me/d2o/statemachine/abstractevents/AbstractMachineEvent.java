@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * Class: GameEvent
+ * Class: AbstractMachineEvent
  *
  * @author bo.hanssen
  * @since Jan 20, 2017 2:22:13 PM
