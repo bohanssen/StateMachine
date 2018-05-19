@@ -7,7 +7,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,8 +24,11 @@ import me.d2o.statemachine.config.configexceptiontests.EventsNotStatic;
 import me.d2o.statemachine.config.configexceptiontests.EventsNotString;
 import me.d2o.statemachine.config.configexceptiontests.StatesNotUniqueTest;
 import me.d2o.statemachine.core.MachineCore;
+import me.d2o.statemachine.core.MachineEvent;
 import me.d2o.statemachine.core.StateMachineService;
 import me.d2o.statemachine.core.TestUtils;
+import me.d2o.statemachine.eventhandler.MachineEventHandler;
+import me.d2o.statemachine.exceptions.MachineEventHandlerConfigurationException;
 import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
 import me.d2o.statemachine.spy.Event1;
 import me.d2o.statemachine.spy.Event2;
@@ -179,5 +185,5 @@ public class IntegrationTest {
 		}
 		assertTrue(exception);
 	}
-	
+
 }

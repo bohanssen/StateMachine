@@ -45,13 +45,13 @@ public class LockingService {
 	void aquire(TransitEvent event) {
 		String id = event.getMachineId();
 		long threadId = this.getThreadId();
-		logger.info("Try to aquire lock for game [{}]", id);
+		logger.info("Try to aquire lock for machine [{}]", id);
 		while (!checkLock(threadId, id)) {
 			this.sleep();
 		}
 		locks.add(id);
 		lockMap.put(threadId, id);
-		logger.info("Aquired lock for game [{}]", id);
+		logger.info("Aquired lock for machine [{}]", id);
 	}
 
 	private boolean checkLock(long threadId, String id) {
@@ -85,7 +85,7 @@ public class LockingService {
 		long threadId = this.getThreadId();
 		if (lockMap.get(threadId) != null) {
 			locks.remove(lockMap.get(threadId));
-			logger.info("Remove lock for thread [{}] game [{}]", threadId, lockMap.get(threadId));
+			logger.info("Remove lock for thread [{}] machine [{}]", threadId, lockMap.get(threadId));
 			lockMap.remove(threadId);
 		}
 	}
