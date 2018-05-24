@@ -26,12 +26,12 @@ public class StateMachineConfigurable {
 	private Map<String, MachineTransition> transitions;
 	private List<String> events = new ArrayList<>();
 	private List<String> states = new ArrayList<>();
-	private Class<?> eventClass;
+	private Class<?> stateClass;
 	
 	
-	public void checkIfEventIsValid(String event){
-		if (!events.contains(event)){
-			throw new StateMachineConfigurationException("["+event+"] is not a valid event because it is not declared in the events class ["+eventClass+"]");
+	public void checkIfStateIsValid(String state){
+		if (!states.contains(state)){
+			throw new StateMachineConfigurationException("["+state+"] is not a valid state because it is not declared in the states class ["+stateClass+"]");
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class StateMachineConfigurable {
 		logger.info("New Event driven StateMachine configuration");
 		logger.info("Event configuration class: {}",events);
 		logger.info("State configuration class: {}",states);
-		eventClass = events;
+		stateClass = states;
 		try {
 			checkStaticFinalFields(events,'E');
 			checkStaticFinalFields(states,'S');

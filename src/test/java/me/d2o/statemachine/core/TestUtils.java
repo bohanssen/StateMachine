@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import me.d2o.statemachine.config.MachineRepository;
 import me.d2o.statemachine.config.States;
-import me.d2o.statemachine.spy.Event1;
-import me.d2o.statemachine.spy.Event2;
-import me.d2o.statemachine.spy.Event3;
-import me.d2o.statemachine.spy.Event4;
+
+import me.d2o.statemachine.spy.State1;
+import me.d2o.statemachine.spy.State2;
+import me.d2o.statemachine.spy.State3;
 
 @Service
 @Transactional
@@ -27,11 +27,16 @@ public class TestUtils {
 		return machine.getState();
 	}
 	
+	public void resetSpies(){
+		State1.entered = false;
+		State1.exited = false;
+		State2.entered = false;
+		State2.exited = false;
+		State3.entered = false;
+		State3.exited = false;
+	}
 	public void reset(){
-		Event1.triggered = false;
-		Event2.triggered = false;
-		Event3.triggered = false;
-		Event4.triggered = false;
+		resetSpies();
 		repo.findById(ID).get().setState(States.STATE_1);
 	}
 }

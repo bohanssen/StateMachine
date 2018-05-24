@@ -7,10 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -24,16 +21,14 @@ import me.d2o.statemachine.config.configexceptiontests.EventsNotStatic;
 import me.d2o.statemachine.config.configexceptiontests.EventsNotString;
 import me.d2o.statemachine.config.configexceptiontests.StatesNotUniqueTest;
 import me.d2o.statemachine.core.MachineCore;
-import me.d2o.statemachine.core.MachineEvent;
 import me.d2o.statemachine.core.StateMachineService;
 import me.d2o.statemachine.core.TestUtils;
-import me.d2o.statemachine.eventhandler.MachineEventHandler;
-import me.d2o.statemachine.exceptions.MachineEventHandlerConfigurationException;
 import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
-import me.d2o.statemachine.spy.Event1;
-import me.d2o.statemachine.spy.Event2;
-import me.d2o.statemachine.spy.Event3;
-import me.d2o.statemachine.spy.Event4;
+import me.d2o.statemachine.spy.State5;
+import me.d2o.statemachine.spy.State5Control;
+import me.d2o.statemachine.spy.State1;
+import me.d2o.statemachine.spy.State2;
+import me.d2o.statemachine.spy.State3;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -52,18 +47,35 @@ public class IntegrationTest {
 	@Autowired
 	private StateMachineConfigurable config;
 	
+	private void threeStatesCheck(	boolean i1, boolean o1,
+									boolean i2, boolean o2,
+									boolean i3, boolean o3){
+		assertEquals(i1, State1.entered);
+		assertEquals(o1, State1.exited);
+		
+		assertEquals(i2, State2.entered);
+		assertEquals(o2, State2.exited);
+		
+		assertEquals(i3, State3.entered);
+		assertEquals(o3, State3.exited);
+	}
+	
 	@Test
 	public void happyFlow(){
 		utils.reset();
 		assertEquals(States.STATE_1,utils.get());
 		fsm.triggerTransition(TestUtils.ID, Events.EVENT_1);
-		assertTrue(Event1.triggered);
+		threeStatesCheck(false, true, true, false, false, false);
 		assertEquals(States.STATE_2,utils.get());
+		
+		utils.resetSpies();
 		fsm.triggerTransition(TestUtils.ID, Events.EVENT_2);
-		assertTrue(Event2.triggered);
+		threeStatesCheck(false, false, false, true, true, false);
 		assertEquals(States.STATE_3,utils.get());
+		
+		utils.resetSpies();
 		fsm.triggerTransition(TestUtils.ID, Events.EVENT_3);
-		assertTrue(Event3.triggered);
+		threeStatesCheck(true, false, false, false, false, true);
 		assertEquals(States.STATE_1,utils.get());
 	}
 	
@@ -71,9 +83,8 @@ public class IntegrationTest {
 	public void faultyEvent(){
 		utils.reset();
 		assertEquals(States.STATE_1,utils.get());
-		Event1.triggered = false;
 		fsm.triggerTransition(TestUtils.ID, Events.EVENT_2);
-		assertFalse(Event1.triggered);
+		threeStatesCheck(false, false, false, false, false, false);
 		assertEquals(States.STATE_1,utils.get());
 	}
 	
@@ -84,10 +95,6 @@ public class IntegrationTest {
 		fsm.triggerTransition(TestUtils.ID, Events.EVENT_4);
 		Thread.sleep(500);
 		assertEquals(States.STATE_1,utils.get());
-		assertFalse(Event1.triggered);
-		assertTrue(Event2.triggered);
-		assertTrue(Event3.triggered);
-		assertTrue(Event4.triggered);
 	}
 	
 	@Test
@@ -100,6 +107,8 @@ public class IntegrationTest {
 	public void falsePrecheckTest(){
 		utils.reset();
 		fsm.triggerTransition(TestUtils.ID, Events.EVENT_5);
+		assertFalse(State5.entered);
+		assertTrue(State5Control.entered);
 	}
 	
 	@Test

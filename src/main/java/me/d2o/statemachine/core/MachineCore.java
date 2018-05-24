@@ -46,6 +46,8 @@ public class MachineCore {
 	}
 
 	private void stepTwoPropagate(TransitEvent transit, StateMachine machine, MachineTransition mt) {
+		transit.setExitState(mt.getCurrentState());
+		transit.setEnterState(mt.getTargetState());
 		MachineEvent ge =  fsm.triggerMachineEvent(transit, mt.getEvent());
 		stepThreeAdvanceState(machine, mt, ge);
 	}
@@ -60,6 +62,7 @@ public class MachineCore {
 		if (event != null && event.getPropagate() != null && !event.getPropagate().isEmpty()) {
 			event.setEvent(event.getPropagate());
 			event.setPropagate("");
+			event.setTerminated(false);
 			logger.info("Propagating transit [{}]", event);
 			fsm.triggerAsynchronousTransition(event, event.getEvent());
 		}

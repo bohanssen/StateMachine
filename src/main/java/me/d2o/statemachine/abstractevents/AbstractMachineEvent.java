@@ -23,6 +23,10 @@ public abstract class AbstractMachineEvent extends ApplicationEvent {
 	private String event;
 	private String propagate;
 
+	private String enterState;
+	private String exitState;
+	private boolean terminated;
+	
 	private Object body;
 
 	public AbstractMachineEvent(Object source) {
@@ -68,10 +72,40 @@ public abstract class AbstractMachineEvent extends ApplicationEvent {
 		this.propagate = propagate;
 	}
 
+	public String getEnterState() {
+		return enterState;
+	}
+
+	public void setEnterState(String enterState) {
+		this.enterState = enterState;
+	}
+
+	public String getExitState() {
+		return exitState;
+	}
+
+	public void setExitState(String exitState) {
+		this.exitState = exitState;
+	}
+
+	public boolean isTerminated() {
+		return terminated;
+	}
+
+	public void setTerminated(boolean terminated) {
+		this.terminated = terminated;
+	}
+
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName()+" [machineId=" + machineId + ", event=" + event + ", propagate=" + propagate + ", body="
-				+ body + "]";
+		return "AbstractMachineEvent [machineId=" + machineId + ", event=" + event + ", propagate=" + propagate
+				+ ", enterState=" + enterState + ", exitState=" + exitState + ", terminated=" + terminated + "]";
 	}
+
+//	@Override
+//	public String toString() {
+//		return this.getClass().getSimpleName()+" [machineId=" + machineId + ", event=" + event + ", propagate=" + propagate + ", body="
+//				+ body + "]";
+//	}
 
 }

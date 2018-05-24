@@ -14,9 +14,17 @@ import me.d2o.statemachine.abstractevents.AbstractMachineEvent;
  */
 public class MachineEvent extends AbstractMachineEvent {
 
-	private static final long serialVersionUID = -8167350404522760596L;
-
-	MachineEvent(Object source) {
+	public MachineEvent(Object source) {
 		super(source);
 	}
+
+	private static final long serialVersionUID = -8167350404522760596L;
+
+	@Override
+	public void copy(AbstractMachineEvent e) {
+		super.copy(e);
+		this.setEnterState(e.getEnterState());
+		this.setExitState(e.getExitState());
+	}
+	
 }
