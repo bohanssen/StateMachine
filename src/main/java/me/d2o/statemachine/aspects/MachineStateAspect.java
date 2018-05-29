@@ -1,4 +1,4 @@
-package me.d2o.statemachine.annotations;
+package me.d2o.statemachine.aspects;
 
 import java.lang.reflect.Method;
 
@@ -8,6 +8,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
+import me.d2o.statemachine.annotations.EnterMachineState;
+import me.d2o.statemachine.annotations.ExitMachineState;
 import me.d2o.statemachine.core.MachineEvent;
 
 

@@ -1,4 +1,4 @@
-package me.d2o.statemachine.annotations;
+package me.d2o.statemachine.config;
 
 import java.lang.reflect.Method;
 
@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
-import me.d2o.statemachine.config.StateMachineConfigurable;
+import me.d2o.statemachine.annotations.EnterMachineState;
+import me.d2o.statemachine.annotations.ExitMachineState;
 import me.d2o.statemachine.exceptions.MachineEventHandlerConfigurationException;
 import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
 
