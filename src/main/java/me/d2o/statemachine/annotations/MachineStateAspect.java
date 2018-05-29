@@ -22,7 +22,7 @@ public class MachineStateAspect {
         EnterMachineState myAnnotation = method.getAnnotation(EnterMachineState.class);
         
         MachineEvent event = (MachineEvent) joinPoint.getArgs()[0];
-        if (event.getEnterState().equals(myAnnotation.value())){
+        if (!event.isTerminated() && event.getEnterState().equals(myAnnotation.value())){
         	return joinPoint.proceed();
         } else {
         	return null;
