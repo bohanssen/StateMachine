@@ -17,5 +17,5 @@ import org.springframework.stereotype.Component;
 public @interface EnterMachineState {
 	
 	public String value();
-	
+
 }

@@ -37,6 +37,8 @@ public class ConfigValidator implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) 
       throws BeansException {
+    	
+    	//Check for method annotations Enter/Exit
     	for(Method method: bean.getClass().getMethods()){
     	    if(method.isAnnotationPresent(EnterMachineState.class)){
     	    	validate(method.getAnnotation(EnterMachineState.class).value());
@@ -45,6 +47,7 @@ public class ConfigValidator implements BeanPostProcessor {
     	    	validate(method.getAnnotation(ExitMachineState.class).value());
     	    }
     	}
+    	
         return bean;
     }
  
