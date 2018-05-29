@@ -79,120 +79,120 @@ public class IntegrationTest {
 		assertEquals(States.STATE_1,utils.get());
 	}
 	
-	@Test
-	public void faultyEvent(){
-		utils.reset();
-		assertEquals(States.STATE_1,utils.get());
-		fsm.triggerTransition(TestUtils.ID, Events.EVENT_2);
-		threeStatesCheck(false, false, false, false, false, false);
-		assertEquals(States.STATE_1,utils.get());
-	}
-	
-	@Test
-	public void concurentLockTest() throws InterruptedException{
-		utils.reset();
-		assertEquals(States.STATE_1,utils.get());
-		fsm.triggerTransition(TestUtils.ID, Events.EVENT_4);
-		Thread.sleep(500);
-		assertEquals(States.STATE_1,utils.get());
-	}
-	
-	@Test
-	public void unknowMachineTest(){
-		MachineCore.machineLookUpTimeOut = 1000;
-		fsm.triggerTransition("UNKNOWN", Events.EVENT_1);
-	}
-	
-	@Test
-	public void falsePrecheckTest(){
-		utils.reset();
-		fsm.triggerTransition(TestUtils.ID, Events.EVENT_5);
-		assertFalse(State5.entered);
-		assertTrue(State5Control.entered);
-	}
-	
-	@Test
-	public void faultyEventTransistionConfigTest(){
-		boolean exception = false;
-		try {
-			config.addTransition("UNKNOWN EVENT", States.STATE_1, States.STATE_1);
-		} catch (StateMachineConfigurationException ex){
-			assertEquals("Passed an invalid event or state to the Machine configuration", ex.getMessage());
-			exception = true;
-		}
-		assertTrue(exception);
-	}
-	
-	@Test
-	public void faultyStateTransistionConfigTest(){
-		boolean exception = false;
-		try {
-			config.addTransition(Events.EVENT_1, "UNKNOWN STATE", States.STATE_1);
-		} catch (StateMachineConfigurationException ex){
-			assertEquals("Passed an invalid event or state to the Machine configuration", ex.getMessage());
-			exception = true;
-		}
-		assertTrue(exception);
-	}
-	
-	@Test
-	public void eventsNotUniqueTest(){
-		boolean exception = false;
-		try {
-			new StateMachineConfigurable(EventsExceptionTest.class, States.class);
-		} catch (StateMachineConfigurationException ex){
-			assertTrue(ex.getMessage().startsWith("Value is not unique"));
-			exception = true;
-		}
-		assertTrue(exception);
-	}
-	
-	@Test
-	public void statesNotUniqueTest(){
-		boolean exception = false;
-		try {
-			new StateMachineConfigurable(Events.class, StatesNotUniqueTest.class);
-		} catch (StateMachineConfigurationException ex){
-			assertTrue(ex.getMessage().startsWith("Value is not unique"));
-			exception = true;
-		}
-		assertTrue(exception);
-	}
-	
-	@Test
-	public void eventsNotStaticTest(){
-		boolean exception = false;
-		try {
-			new StateMachineConfigurable(EventsNotStatic.class, States.class);
-		} catch (StateMachineConfigurationException ex){
-			assertTrue(ex.getMessage().startsWith("Please use only public static final String fields in your configuration:"));
-			exception = true;
-		}
-		assertTrue(exception);
-	}
-	
-	@Test
-	public void eventsNotFinalTest(){
-		boolean exception = false;
-		try {
-			new StateMachineConfigurable(EventsNotFinal.class, States.class);
-		} catch (StateMachineConfigurationException ex){
-			assertTrue(ex.getMessage().startsWith("Please use only public static final String fields in your configuration:"));
-			exception = true;
-		}
-		assertTrue(exception);
-	}
-	
-	@Test
-	public void eventsNotStringTest(){
-		boolean exception = false;
-		try {
-			new StateMachineConfigurable(EventsNotString.class, States.class);
-		} catch (StateMachineConfigurationException ex){
-			assertTrue(ex.getMessage().startsWith("Please use only public static final String fields in your configuration:"));
-			exception = true;
-		}
-		assertTrue(exception);
-	}
+//	@Test
+//	public void faultyEvent(){
+//		utils.reset();
+//		assertEquals(States.STATE_1,utils.get());
+//		fsm.triggerTransition(TestUtils.ID, Events.EVENT_2);
+//		threeStatesCheck(false, false, false, false, false, false);
+//		assertEquals(States.STATE_1,utils.get());
+//	}
+//	
+//	@Test
+//	public void concurentLockTest() throws InterruptedException{
+//		utils.reset();
+//		assertEquals(States.STATE_1,utils.get());
+//		fsm.triggerTransition(TestUtils.ID, Events.EVENT_4);
+//		Thread.sleep(500);
+//		assertEquals(States.STATE_1,utils.get());
+//	}
+//	
+//	@Test
+//	public void unknowMachineTest(){
+//		MachineCore.machineLookUpTimeOut = 1000;
+//		fsm.triggerTransition("UNKNOWN", Events.EVENT_1);
+//	}
+//	
+//	@Test
+//	public void falsePrecheckTest(){
+//		utils.reset();
+//		fsm.triggerTransition(TestUtils.ID, Events.EVENT_5);
+//		assertFalse(State5.entered);
+//		assertTrue(State5Control.entered);
+//	}
+//	
+//	@Test
+//	public void faultyEventTransistionConfigTest(){
+//		boolean exception = false;
+//		try {
+//			config.addTransition("UNKNOWN EVENT", States.STATE_1, States.STATE_1);
+//		} catch (StateMachineConfigurationException ex){
+//			assertEquals("Passed an invalid event or state to the Machine configuration", ex.getMessage());
+//			exception = true;
+//		}
+//		assertTrue(exception);
+//	}
+//	
+//	@Test
+//	public void faultyStateTransistionConfigTest(){
+//		boolean exception = false;
+//		try {
+//			config.addTransition(Events.EVENT_1, "UNKNOWN STATE", States.STATE_1);
+//		} catch (StateMachineConfigurationException ex){
+//			assertEquals("Passed an invalid event or state to the Machine configuration", ex.getMessage());
+//			exception = true;
+//		}
+//		assertTrue(exception);
+//	}
+//	
+//	@Test
+//	public void eventsNotUniqueTest(){
+//		boolean exception = false;
+//		try {
+//			new StateMachineConfigurable(EventsExceptionTest.class, States.class);
+//		} catch (StateMachineConfigurationException ex){
+//			assertTrue(ex.getMessage().startsWith("Value is not unique"));
+//			exception = true;
+//		}
+//		assertTrue(exception);
+//	}
+//	
+//	@Test
+//	public void statesNotUniqueTest(){
+//		boolean exception = false;
+//		try {
+//			new StateMachineConfigurable(Events.class, StatesNotUniqueTest.class);
+//		} catch (StateMachineConfigurationException ex){
+//			assertTrue(ex.getMessage().startsWith("Value is not unique"));
+//			exception = true;
+//		}
+//		assertTrue(exception);
+//	}
+//	
+//	@Test
+//	public void eventsNotStaticTest(){
+//		boolean exception = false;
+//		try {
+//			new StateMachineConfigurable(EventsNotStatic.class, States.class);
+//		} catch (StateMachineConfigurationException ex){
+//			assertTrue(ex.getMessage().startsWith("Please use only public static final String fields in your configuration:"));
+//			exception = true;
+//		}
+//		assertTrue(exception);
+//	}
+//	
+//	@Test
+//	public void eventsNotFinalTest(){
+//		boolean exception = false;
+//		try {
+//			new StateMachineConfigurable(EventsNotFinal.class, States.class);
+//		} catch (StateMachineConfigurationException ex){
+//			assertTrue(ex.getMessage().startsWith("Please use only public static final String fields in your configuration:"));
+//			exception = true;
+//		}
+//		assertTrue(exception);
+//	}
+//	
+//	@Test
+//	public void eventsNotStringTest(){
+//		boolean exception = false;
+//		try {
+//			new StateMachineConfigurable(EventsNotString.class, States.class);
+//		} catch (StateMachineConfigurationException ex){
+//			assertTrue(ex.getMessage().startsWith("Please use only public static final String fields in your configuration:"));
+//			exception = true;
+//		}
+//		assertTrue(exception);
+//	}
 
 }
