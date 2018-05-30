@@ -24,8 +24,6 @@ import me.d2o.statemachine.core.MachineCore;
 import me.d2o.statemachine.core.StateMachineService;
 import me.d2o.statemachine.core.TestUtils;
 import me.d2o.statemachine.exceptions.StateMachineConfigurationException;
-import me.d2o.statemachine.spy.State5;
-import me.d2o.statemachine.spy.State5Control;
 import me.d2o.statemachine.spy.State1;
 import me.d2o.statemachine.spy.State2;
 import me.d2o.statemachine.spy.State3;
@@ -101,14 +99,6 @@ public class IntegrationTest {
 	public void unknowMachineTest(){
 		MachineCore.machineLookUpTimeOut = 1000;
 		fsm.triggerTransition("UNKNOWN", Events.EVENT_1);
-	}
-	
-	@Test
-	public void falsePrecheckTest(){
-		utils.reset();
-		fsm.triggerTransition(TestUtils.ID, Events.EVENT_5);
-		assertFalse(State5.entered);
-		assertTrue(State5Control.entered);
 	}
 	
 	@Test

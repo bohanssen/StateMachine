@@ -9,6 +9,5 @@ public class Events {
 	public static final String EVENT_2 = "EVENT_2";
 	public static final String EVENT_3 = "EVENT_3";
 	public static final String EVENT_4 = "EVENT_4";
-	public static final String EVENT_5 = "EVENT_5";
 	
 }
