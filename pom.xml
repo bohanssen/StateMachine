@@ -2,12 +2,45 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.d2o</groupId>
   <artifactId>StateMachine</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
   
   <name>StateMachine</name>
   <description>The D2O event driven asynchronous finite state machine</description>
+  <url>https://github.com/bohanssen/StateMachine</url>
+  
+    <licenses>
+	  <license>
+	    <name>The Apache License, Version 2.0</name>
+	    <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+	  </license>
+	</licenses>
 
+	<developers>
+	    <developer>
+	      <name>Bo Hanssen</name>
+	      <organization>d2o.me</organization>
+	      <organizationUrl>https://d2o.me</organizationUrl>
+	    </developer>
+	</developers>
+	
+	<scm>
+	  <connection>scm:git:git://github.com/bohanssen/StateMachine.git</connection>
+	  <developerConnection>scm:git:ssh://github.com:bohanssen/StateMachine.git</developerConnection>
+	  <url>http://github.com/bohanssen/StateMachine</url>
+	</scm>
+	
+	<distributionManagement>
+	  <snapshotRepository>
+	   <id>ossrh</id>
+	   <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	  </snapshotRepository>
+	  <repository>
+	   <id>ossrh</id>
+	   <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	  </repository>
+	 </distributionManagement>
+	 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -44,7 +77,45 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		</plugins>
+		   <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-source-plugin</artifactId>
+		    <executions>
+		     <execution>
+		      <id>attach-sources</id>
+		      <goals>
+		       <goal>jar-no-fork</goal>
+		      </goals>
+		     </execution>
+		    </executions>
+		   </plugin>
+		   <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-javadoc-plugin</artifactId>
+		    <executions>
+		     <execution>
+		      <id>attach-javadocs</id>
+		      <goals>
+		       <goal>jar</goal>
+		      </goals>
+		     </execution>
+		    </executions>
+		   </plugin>
+		   <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-gpg-plugin</artifactId>
+		    <version>1.5</version>
+		    <executions>
+		     <execution>
+		      <id>sign-artifacts</id>
+		      <phase>verify</phase>
+		      <goals>
+		       <goal>sign</goal>
+		      </goals>
+		     </execution>
+		    </executions>
+		   </plugin>
+		  </plugins>
 	</build>
     
 </project>
