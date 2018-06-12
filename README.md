@@ -9,3 +9,5 @@ Documentation todo...
   <version>1.0.0</version>
 </dependency>
 ```
+
+<a href="https://github.com/bohanssen/StateMachineDemo" target="_blank">Example project implementing the StateMachine</a>
