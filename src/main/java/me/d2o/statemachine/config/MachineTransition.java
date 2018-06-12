@@ -22,10 +22,9 @@ public class MachineTransition {
 	private String targetState;
 
 	/**
-	 * @param event
-	 * @param currentState
-	 * @param targetState
-	 * @param propagationEvent
+	 * @param event Static final string from the event class
+	 * @param currentState Static final string from the state class
+	 * @param targetState Static final string from the state class
 	 */
 	public MachineTransition(String event, String currentState, String targetState) {
 		this.event = event;
